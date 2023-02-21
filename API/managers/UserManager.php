@@ -40,10 +40,13 @@ class UserManager extends AbstractManager {
         ];
         $query->execute($parameters);
         
+        
         $query=$this->db->prepare("SELECT * FROM users WHERE email= :email");
-        $parameters= ['email'=>$email];
+        $parameters= ['email'=>$user->getEmail()];
         $query->execute($parameters);
-        $getUser=$query->fetch(PDO::FETCH_ASSOC);
+        $getAddUser=$query->fetch(PDO::FETCH_ASSOC);
+        
+        $getUser=new User($getAddUser['id'],$getAddUser['username'],$getAddUser['first_name'],$getAddUser['last_name'],$getAddUser['email']);
         // return it with its id
         return $getUser;
     }
@@ -51,16 +54,22 @@ class UserManager extends AbstractManager {
     public function updateUser(User $user) : User
     {
         // update the user in the database
-        $query=$this->db->prepare("UPDATE users SET username = :username, first_name = :first_name, last_name=:last_name, email=:email WHERE users.id=:id");
+        $query=$this->db->prepare("UPDATE users SET username = :username, first_name = :first_name, last_name=:last_name, email=:email WHERE id=:id");
         $parameters= [
         'id' => $user->getId(),
         'username'=>$user->getUsername(),
         'first_name'=> $user->getFirstName(),
         'last_name' =>$user->getLastName(),
-        'biography' => $user->getEmail()
+        'email' => $user->getEmail()
         ];
         $query->execute($parameters);
-        $updatedUser=$query->fetch(PDO::FETCH_ASSOC);
+        
+        $query=$this->db->prepare("SELECT * FROM users WHERE email= :email");
+        $parameters= ['email'=>$user->getEmail()];
+        $query->execute($parameters);
+        $userToUpdate=$query->fetch(PDO::FETCH_ASSOC);
+        
+        $updatedUser=new User($userToUpdate['id'],$userToUpdate['username'],$userToUpdate['first_name'],$userToUpdate['last_name'],$userToUpdate['email']);
         // return it
         return $updatedUser;
     }
@@ -74,7 +83,7 @@ class UserManager extends AbstractManager {
         ];
         $query->execute($parameters);
         
-        return getAllUsers();
         // return the full list of users
+        return $this->getAllUsers();
     }
 }

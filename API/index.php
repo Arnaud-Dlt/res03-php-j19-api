@@ -25,6 +25,3 @@ catch(Exception $e)
         "./templates/404.phtml";
     }
 }
-$newuser=new User(null,"Arnaud-Dlt","Arnaud","Deletre","arnaud.deletre@3wa.io");
-$um=new UserManager();
-$newusers=$um->createUser($newuser);

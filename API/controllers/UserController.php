@@ -11,24 +11,38 @@ class UserController extends AbstractController {
     public function getUsers()
     {
         // get all the users from the manager
-        $allUsers=$this->um->getAllUsers();
+        $users=$this->um->getAllUsers();
         // render
-        $this->render($allUsers);
+        
+        $usersTab = [];
+        foreach($users as $user){
+            $userTab=$user->toArray();
+            $usersTab[]=$userTab;
+        }
+        $this->render($usersTab);
     }
 
     public function getUser(string $get)
     {
-        // get the user from the manager
+        $id = intval($get);
+         // get the user from the manager
+        $user = $this->um->getUserById($id);
         // either by email or by id
+        
+        $userTab = $user->toArray();
 
         // render
+        $this->render($userTab);
     }
 
     public function createUser(array $post)
     {
-        // create the user in the manager
-
-        // render the created user
+        // // create the user in the manager
+        // $createUser = $this->um->createUser();
+        // // render the created user
+        // $createUserTab = $createUser->toArray();
+        
+        // $this->render($createUserTab);
     }
 
     public function updateUser(array $post)
