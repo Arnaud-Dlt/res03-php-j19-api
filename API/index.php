@@ -1,6 +1,6 @@
 <?php
 
-require "autoload.php";
+require "./autoload.php";
 
 try {
 
@@ -17,10 +17,14 @@ try {
     
     $router->route($routes, $request);
 }
+
 catch(Exception $e)
 {
     if($e->getCode() === 404)
     {
-        require "./templates/404.phtml";
+        "./templates/404.phtml";
     }
 }
+$newuser=new User(null,"Arnaud-Dlt","Arnaud","Deletre","arnaud.deletre@3wa.io");
+$um=new UserManager();
+$newusers=$um->createUser($newuser);
