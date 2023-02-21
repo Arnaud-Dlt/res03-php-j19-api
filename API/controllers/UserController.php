@@ -37,25 +37,35 @@ class UserController extends AbstractController {
 
     public function createUser(array $post)
     {
-        // // create the user in the manager
-        // $createUser = $this->um->createUser();
-        // // render the created user
-        // $createUserTab = $createUser->toArray();
+        // create the user in the manager
+        $newUser=new User(null, $post['username'], $post['firstName'], $post['lastName'], $post['email']);
+         // get the user from the manager
+        $createUser = $this->um->createUser($newUser);
+        // render the created user
+        $createUserTab = $createUser->toArray();
         
-        // $this->render($createUserTab);
+        $this->render($createUserTab);
     }
 
     public function updateUser(array $post)
     {
         // update the user in the manager
-
+        $newUser=new User(null, $post['username'], $post['firstName'], $post['lastName'], $post['email']);
+        $updateUser = $this->um->updateUser($newUser);
+        $updateUserTab = $updateUser->toArray();
+        
+        $this->render($updateUserTab);
         // render the updated user
     }
 
     public function deleteUser(array $post)
     {
         // delete the user in the manager
-
+        $deleteUser=new User(null, $post['username'], $post['firstName'], $post['lastName'], $post['email']);
+        $deleteUser = $this->um->deleteUser($deleteUser);
+        $deleteUserTab = $deleteUser->toArray();
+        
+        $this->render($updateUserTab);
         // render the list of all users
     }
 }
